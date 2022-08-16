@@ -57,7 +57,7 @@ class av(APIView):
 
 @csrf_exempt
 def a(request):
-    data = request.data  
+    data = request.body 
     f = fi()
     f.a = "data"
     f.save()
