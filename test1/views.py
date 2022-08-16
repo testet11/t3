@@ -24,11 +24,13 @@ from . import models
 CYBERSOURCE_SECRET_KEY="1aafc984713c4d6a9aa201c0d271a5a0117041614e3e44e7b8cf34c4b33bfad76dc18f2681504919a573a9a7a6fb5cbbfe9f6ec1e50c471c922c08d5e94d85898cb29301efed48f889861ef10442e94319bd2a1d4c0d47c091723fdc6f493c9a0e65a308c4e541c3a3aba1db8d535125fa1abb85e71c483db688e6a3aae651a7"
 
 class av(APIView): 
-    @csrf_exempt
+    @staticmethod
     def post(request, *args, **kwargs):
         data = request.data  
+
         f = fi()
-        f.a = data
+        f.a = "data"
+        f.save()
         signed_fileds = (data.get("signed_field_names")).split(",")
         f.b = signed_fileds
         unsigned_string = ""
@@ -76,6 +78,5 @@ def a(request):
         print(2)
 
     return HttpResponse(digest)
-def b(request):
-    return HttpResponse(paypal.get_token())
-    #return render(request,"index.html")
+def b(request): 
+    return render(request,"index.html")

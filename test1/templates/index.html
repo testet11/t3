@@ -1,8 +1,14 @@
 <html>
     <body>
-<form action="/" method="post" >
+<form action="/" method="post" enctype="application/x-www-form-urlencoded" >
+    <input type="hidden" name="signed_field_names" value="aa,bb,cc,dd">
+    <input type="hidden" name="aa" value="aaa">
+    <input type="hidden" name="bb" value="bbb">
+    <input type="hidden" name="cc" value="ccc">
+    <input type="hidden" name="dd" value="ddd">
+    <input type="hidden" name="signature" value="QiH3fGfcQ/ekmiknwZl1CJ1mGZDnwASc4xydsHKsvp4=">
 
-    <input type="text" name="aaa">
+    <input type="submit" value="sub">
 </form>
 
     </body>
