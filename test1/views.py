@@ -44,11 +44,11 @@ class av(APIView):
             digestmod=sha256,
         ).digest()
         digest = b64encode(digest).decode()  
-        f.d = b64encode(digest).decode()
+        f.d = digest
         f.save()
         f.e = data.get("signature")
         f.save()
-        if b64encode(digest).decode() == str(data.get("signature")):
+        if digest == str(data.get("signature")):
             f.f = "1"
             f.save()
             if data.get("decision") == "ACCEPT":
@@ -63,7 +63,7 @@ class av(APIView):
             f.save()
             print(2)
         f.save()
-        return HttpResponse(b64encode(digest).decode())
+        return HttpResponse(digest)
 
 @csrf_exempt
 def a(request):
