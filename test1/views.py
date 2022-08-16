@@ -26,11 +26,9 @@ CYBERSOURCE_SECRET_KEY="1aafc984713c4d6a9aa201c0d271a5a0117041614e3e44e7b8cf34c4
 class av(APIView): 
     @staticmethod
     def post(request, *args, **kwargs):
-        
+        data = request.data 
         f = fi()
-        f.a = "dataa"
-        f.save()
-        data = request.data  
+        f.a = data
         signed_fileds = (data.get("signed_field_names")).split(",")
         f.b = signed_fileds
         unsigned_string = ""
@@ -43,12 +41,15 @@ class av(APIView):
             msg=unsigned_string.encode(),
             digestmod=sha256,
         ).digest()
-        print(b64encode(digest).decode())
-        print(str(data.get("signature")))
+        digest = b64encode(digest).decode()  
         f.d = b64encode(digest).decode()
         f.e = data.get("signature")
         if b64encode(digest).decode() == str(data.get("signature")):
             f.f = "1"
+            if data.get("decision") == "ACCEPT":
+                f.f = "11, "+str(data.get("req_amount"))
+            else:
+                f.f = "12"
             print(1)
         else:
             f.f = "2"
