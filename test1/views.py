@@ -29,6 +29,7 @@ class av(APIView):
         data = request.data 
         f = fi()
         f.a = data
+        f.save()
         signed_fileds = (data.get("signed_field_names")).split(",")
         f.b = signed_fileds
         unsigned_string = ""
@@ -36,6 +37,7 @@ class av(APIView):
             unsigned_string += f'{filed}={data.get(filed)},'
         unsigned_string = unsigned_string[:-1] 
         f.c = unsigned_string
+        f.save()
         digest = hmac.new(
             CYBERSOURCE_SECRET_KEY.encode(),
             msg=unsigned_string.encode(),
@@ -43,16 +45,22 @@ class av(APIView):
         ).digest()
         digest = b64encode(digest).decode()  
         f.d = b64encode(digest).decode()
+        f.save()
         f.e = data.get("signature")
+        f.save()
         if b64encode(digest).decode() == str(data.get("signature")):
             f.f = "1"
+            f.save()
             if data.get("decision") == "ACCEPT":
                 f.f = "11, "+str(data.get("req_amount"))
+                f.save()
             else:
                 f.f = "12"
+                f.save()
             print(1)
         else:
             f.f = "2"
+            f.save()
             print(2)
         f.save()
         return HttpResponse(b64encode(digest).decode())
